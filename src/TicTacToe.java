@@ -6,8 +6,7 @@ public class TicTacToe {
         Board board = new Board();
         byte moves = 1;
 
-        // Create method to print initial board (printInstructions)
-        board.printBoard();
+        board.printInstructions();
 
         while (moves < 10) {
             if (moves % 2 == 1) board.setCurrentPlayer(p1);
