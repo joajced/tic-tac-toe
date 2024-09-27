@@ -4,8 +4,9 @@ public class TicTacToe {
         Player p1 = new Player("Player 1", 'X');
         Player p2 = new Player("Player 2", 'O');
         Board board = new Board();
-        byte moves = board.getMoves();
+        byte moves = 0;
 
+        // Create method to print initial board
         board.printBoard();
 
         while (moves < 9) {
@@ -16,8 +17,10 @@ public class TicTacToe {
             System.out.println("It's " + currentName + "'s turn. ");
 
             board.nextTurn();
-            moves = board.getMoves();
+            moves++;
             board.printBoard();
         }
+
+        System.out.println("Game over. Player wins!");
     }
 }

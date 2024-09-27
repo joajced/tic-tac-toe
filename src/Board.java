@@ -4,7 +4,6 @@ public class Board {
 
     private final char[][] gameState;
     private Player currentPlayer;
-    private byte moves;
 
     public Board() {
         gameState = new char[][] {
@@ -12,16 +11,10 @@ public class Board {
             {' ', ' ', ' '},
             {' ', ' ', ' '}
         };
-
-        moves = 0;
     }
 
     public Player getCurrentPlayer() {
         return this.currentPlayer;
-    }
-
-    public byte getMoves() {
-        return this.moves;
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
@@ -46,6 +39,5 @@ public class Board {
 
         char currentSymbol = currentPlayer.getSymbol();
         gameState[inputRow][inputCol] = currentSymbol;
-        moves++;
     }
 }
