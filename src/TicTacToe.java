@@ -4,23 +4,30 @@ public class TicTacToe {
         Player p1 = new Player("Player 1", 'X');
         Player p2 = new Player("Player 2", 'O');
         Board board = new Board();
-        byte moves = 0;
+        byte moves = 1;
 
-        // Create method to print initial board
+        // Create method to print initial board (printInstructions)
         board.printBoard();
 
-        while (moves < 9) {
-            if (moves % 2 == 0) board.setCurrentPlayer(p1);
+        while (moves < 10) {
+            if (moves % 2 == 1) board.setCurrentPlayer(p1);
             else board.setCurrentPlayer(p2);
 
             String currentName = board.getCurrentPlayer().getName();
-            System.out.println("It's " + currentName + "'s turn. ");
+            char currentSymbol = board.getCurrentPlayer().getSymbol();
+            System.out.println("It's " + currentName + "'s turn (" + currentSymbol + ").");
 
             board.nextTurn();
-            moves++;
             board.printBoard();
-        }
 
-        System.out.println("Game over. Player wins!");
+            if (board.checkWin()) {
+                System.out.println("Game over. " + board.getCurrentPlayer().getName() + " wins!");
+                break;
+            } else if (!board.checkWin() && moves == 9) {
+                System.out.println("It's a draw");
+            }
+
+            moves++;
+        }
     }
 }
