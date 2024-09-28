@@ -5,15 +5,14 @@ import java.util.Scanner;
 public class Board {
 
     private final char[][] gameState;
-    private Player currentPlayer;
     private final int[] fullSquares;
+    private Player currentPlayer;
 
     public Board() {
-        gameState = new char[][] {
-            {' ', ' ', ' '},
-            {' ', ' ', ' '},
-            {' ', ' ', ' '}
-        };
+        gameState = new char[3][3];
+        for (char[] row : gameState) {
+            Arrays.fill(row, ' ');
+        }
 
         fullSquares = new int[9];
         Arrays.fill(fullSquares, -1);
@@ -44,7 +43,6 @@ public class Board {
 
         while (true) {
             int inputNum;
-
             System.out.print("Select square: ");
 
             try {
@@ -57,13 +55,18 @@ public class Board {
             }
 
             // Check if square is full
+            if (inputNum == -1) {
+                System.out.println("Your input is not a valid number. Try again!\n");
+                scanner.nextLine();
+                continue;
+            }
             boolean foundSquare = Arrays.stream(fullSquares).anyMatch(i -> i == inputNum);
 
             if (!foundSquare) {
                 try {
                     fullSquares[inputNum - 1] = inputNum;
                 }
-                catch (IndexOutOfBoundsException e) {
+                catch (IndexOutOfBoundsException iobe) {
                     System.out.println("You input a wrong number. Try again!\n");
                     scanner.nextLine();
                     continue;
@@ -135,16 +138,16 @@ public class Board {
         }
 
         // Check diagonally
-        int diag_series = 0;
+        int diagSeries = 0;
         for (int r = 0; r < 3; r++) {
-            if (gameState[r][r] == currentSymbol) diag_series++;
+            if (gameState[r][r] == currentSymbol) diagSeries++;
         }
-        if (diag_series == 3) return true;
+        if (diagSeries == 3) return true;
 
-        diag_series = 0;
+        diagSeries = 0;
         for (int r = 0; r < 3; r++) {
-            if (gameState[r][2 - r] == currentSymbol) diag_series++;
+            if (gameState[r][2 - r] == currentSymbol) diagSeries++;
         }
-        return diag_series == 3;
+        return diagSeries == 3;
     }
 }
