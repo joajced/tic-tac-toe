@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Board {
@@ -15,6 +16,7 @@ public class Board {
         };
 
         fullSquares = new int[9];
+        Arrays.fill(fullSquares, -1);
     }
 
     public Player getCurrentPlayer() {
@@ -41,14 +43,31 @@ public class Board {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            int inputNum;
+
             System.out.print("Select square: ");
-            int inputNum = scanner.nextInt();
+
+            try {
+                inputNum = scanner.nextInt();
+            }
+            catch (InputMismatchException ime) {
+                System.out.println("Your input is not a valid number. Try again!\n");
+                scanner.nextLine();
+                continue;
+            }
 
             // Check if square is full
             boolean foundSquare = Arrays.stream(fullSquares).anyMatch(i -> i == inputNum);
 
             if (!foundSquare) {
-                fullSquares[inputNum - 1] = inputNum;
+                try {
+                    fullSquares[inputNum - 1] = inputNum;
+                }
+                catch (IndexOutOfBoundsException e) {
+                    System.out.println("You input a wrong number. Try again!\n");
+                    scanner.nextLine();
+                    continue;
+                }
 
                 // Translate input to rows and columns
                 switch (inputNum) {
