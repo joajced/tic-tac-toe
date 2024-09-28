@@ -1,9 +1,11 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Board {
 
     private final char[][] gameState;
     private Player currentPlayer;
+    private final int[] fullSquares;
 
     public Board() {
         gameState = new char[][] {
@@ -11,6 +13,8 @@ public class Board {
             {' ', ' ', ' '},
             {' ', ' ', ' '}
         };
+
+        fullSquares = new int[9];
     }
 
     public Player getCurrentPlayer() {
@@ -33,45 +37,59 @@ public class Board {
     }
 
     void nextTurn() {
+        int inputRow, inputCol;
         Scanner scanner = new Scanner(System.in);
-        byte inputRow, inputCol;
 
-        System.out.print("Select square: ");
-        byte inputNum = scanner.nextByte();
+        while (true) {
+            System.out.print("Select square: ");
+            int inputNum = scanner.nextInt();
 
-        switch (inputNum) {
+            // Check if square is full
+            boolean foundSquare = Arrays.stream(fullSquares).anyMatch(i -> i == inputNum);
 
-            case 2 -> {
-                inputRow = 0; inputCol = 1;
+            if (!foundSquare) {
+                fullSquares[inputNum - 1] = inputNum;
+
+                // Translate input to rows and columns
+                switch (inputNum) {
+                    case 2 -> {
+                        inputRow = 0; inputCol = 1;
+                    }
+                    case 3 -> {
+                        inputRow = 0; inputCol = 2;
+                    }
+                    case 4 -> {
+                        inputRow = 1; inputCol = 0;
+                    }
+                    case 5 -> {
+                        inputRow = 1; inputCol = 1;
+                    }
+                    case 6 -> {
+                        inputRow = 1; inputCol = 2;
+                    }
+                    case 7 -> {
+                        inputRow = 2; inputCol = 0;
+                    }
+                    case 8 -> {
+                        inputRow = 2; inputCol = 1;
+                    }
+                    case 9 -> {
+                        inputRow = 2; inputCol = 2;
+                    }
+                    default -> {
+                        inputRow = 0; inputCol = 0;
+                    }
+                }
+
+                // Mark the square
+                char currentSymbol = currentPlayer.getSymbol();
+                gameState[inputRow][inputCol] = currentSymbol;
+
+                break;
             }
-            case 3 -> {
-                inputRow = 0; inputCol = 2;
-            }
-            case 4 -> {
-                inputRow = 1; inputCol = 0;
-            }
-            case 5 -> {
-                inputRow = 1; inputCol = 1;
-            }
-            case 6 -> {
-                inputRow = 1; inputCol = 2;
-            }
-            case 7 -> {
-                inputRow = 2; inputCol = 0;
-            }
-            case 8 -> {
-                inputRow = 2; inputCol = 1;
-            }
-            case 9 -> {
-                inputRow = 2; inputCol = 2;
-            }
-            default -> {
-                inputRow = 0; inputCol = 0;
-            }
+
+            else System.out.println("That square has already been marked. Try again!\n");
         }
-
-        char currentSymbol = currentPlayer.getSymbol();
-        gameState[inputRow][inputCol] = currentSymbol;
     }
 
     boolean checkWin() {

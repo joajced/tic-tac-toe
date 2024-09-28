@@ -4,7 +4,7 @@ public class TicTacToe {
         Player p1 = new Player("Player 1", 'X');
         Player p2 = new Player("Player 2", 'O');
         Board board = new Board();
-        byte moves = 1;
+        int moves = 1;
 
         board.printInstructions();
 
